@@ -11,6 +11,10 @@ from streamlit_autorefresh import st_autorefresh
 import yfinance as yf
 import warnings
 import json
+from nselib import capital_market
+from nselib import derivatives
+import pandas_market_calendars as mcal
+
 
 warnings.filterwarnings('ignore')
 
