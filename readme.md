@@ -3,7 +3,7 @@
 Welcome to the **Advanced Indian Stock Market Dashboard**! 🎉 This tool helps you understand and analyze the Indian stock market with **real-time data**, smart **AI recommendations**, and **comprehensive charts**. Whether you're new to trading or looking for deeper insights, this dashboard is designed to be **user-friendly** and **informative**. 📊
 
 ---
-
+# **Project link**-> https://aidetailedindianstock.streamlit.app/
 ## ✨ **Key Features** 🔑
 
 Here's what this dashboard can do for you:
