@@ -10,6 +10,7 @@
 # numpy==1.26.2
 # plotly==5.18.0
 # yfinance==0.2.33 
+
 nselib
 streamlit
 pandas
@@ -22,3 +23,4 @@ pytz
 numpy
 plotly
 yfinance
+streamlit_autorefresh
