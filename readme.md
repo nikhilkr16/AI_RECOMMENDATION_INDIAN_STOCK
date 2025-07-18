@@ -4,6 +4,9 @@ Welcome to the **Advanced Indian Stock Market Dashboard**! 🎉 This tool helps 
 
 ---
  **Project link**-> https://indianstockai.streamlit.app/
+
+ <img width="1853" height="919" alt="image" src="https://github.com/user-attachments/assets/a3f4b721-17fc-4004-98d9-22393ba53811" />
+
 ## ✨ **Key Features** 🔑
 
 Here's what this dashboard can do for you:
