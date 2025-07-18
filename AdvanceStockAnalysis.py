@@ -19,6 +19,12 @@ FINNHUB_API_KEY = "d1sqg0hr01qhe5rbg89gd1sqg0hr01qhe5rbg8a0"
 
 # --- Safe Imports with Fallback ---
 try:
+    from nselib import capital_market
+    print("NSELIB imported successfully.")
+except ImportError:
+    print("NSELIB is not installed.")
+
+try:
     from nselib import capital_market, derivatives
     NSELIB_AVAILABLE = True
 except ImportError:
