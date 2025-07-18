@@ -13,3 +13,5 @@ numpy
 plotly
 yfinance
 streamlit_autorefresh
+pandas_market_calendars
+git+https://github.com/RuchiTanmay/nselib.git
