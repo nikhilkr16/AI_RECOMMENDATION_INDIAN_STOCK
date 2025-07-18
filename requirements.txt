@@ -1,6 +1,6 @@
 # Forcing a fresh install
 
-nselib
+nselib==1.0.13
 streamlit
 pandas
 beautifulsoup4
