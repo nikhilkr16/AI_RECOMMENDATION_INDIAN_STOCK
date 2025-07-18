@@ -1,0 +1,24 @@
+# streamlit==1.29.0
+# pandas==2.1.4
+# nselib==1.0.13
+# beautifulsoup4==4.12.2
+# lxml==4.9.3
+# html5lib==1.1
+# requests==2.31.0
+# python-dateutil==2.8.2
+# pytz==2023.3.post1
+# numpy==1.26.2
+# plotly==5.18.0
+# yfinance==0.2.33 
+nselib
+streamlit
+pandas
+beautifulsoup4
+lxml
+html5lib
+requests
+python-dateutil
+pytz
+numpy
+plotly
+yfinance
