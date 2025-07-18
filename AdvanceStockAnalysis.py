@@ -15,28 +15,21 @@ from nselib import capital_market
 from nselib import derivatives
 import pandas_market_calendars as mcal
 
-
 warnings.filterwarnings('ignore')
 
 # --- API Keys and Configuration ---
 FINNHUB_API_KEY = "d1sqg0hr01qhe5rbg89gd1sqg0hr01qhe5rbg8a0"
+# Gemini API Key will be provided by the environment, leave it empty here
+# Keeping the user's provided key as per the latest context.
+GEMINI_API_KEY = "AIzaSyD88vBVVRRQZH3lQFA7jI61Sg0bKUH4Wkg" 
 
 # --- Safe Imports with Fallback ---
-
-
 try:
     from nselib import capital_market, derivatives
     NSELIB_AVAILABLE = True
 except ImportError:
     NSELIB_AVAILABLE = False
     st.warning("NSELib not available. Using alternative data sources.")
-
-try:
-    from nselib import capital_market
-    print("NSELIB imported successfully.")
-except ImportError:
-    print("NSELIB is not installed.")
-
 
 # --- Streamlit Page Configuration ---
 st.set_page_config(
@@ -105,6 +98,29 @@ st.markdown("""
         background-color: #f9f9f9;
         border-radius: 5px;
         border: 1px solid #eee;
+    }
+    .gemini-box {
+        background: #e0f7fa; /* Light blue */
+        color: #006064; /* Dark cyan */
+        border: 1px solid #b2ebf2;
+        padding: 1rem;
+        border-radius: 8px;
+        margin: 1rem 0;
+        text-align: center;
+        font-weight: bold;
+        font-size: 1.2em;
+    }
+    .final-decision-box {
+        background: #e8f5e9; /* Light green */
+        color: #2e7d32; /* Dark green */
+        border: 1px solid #c8e6c9;
+        padding: 1.5rem;
+        border-radius: 10px;
+        margin: 1rem 0;
+        text-align: center;
+        font-weight: bold;
+        font-size: 1.5em;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
     }
 </style>
 """, unsafe_allow_html=True)
@@ -315,12 +331,12 @@ def calculate_advanced_technical_indicators(data):
 
     return df.dropna()
 
-# --- Highly Accurate AI Trading Signal Generator (Rule-based) ---
-def generate_advanced_trading_signal(data):
-    """Generate highly accurate trading signals using a weighted rule-based system."""
+# --- Rule-based Trading Signal Generator ---
+def generate_rule_based_trading_signal(data):
+    """Generate trading signals using a weighted rule-based system."""
     
     if data.empty or len(data) < 50:
-        return "HOLD", "Insufficient data for analysis.", 0.5
+        return "HOLD", "Insufficient data for rule-based analysis.", 0.5
 
     latest = data.iloc[-1]
     
@@ -388,7 +404,6 @@ def generate_advanced_trading_signal(data):
     
     if buy_score > sell_score:
         signal = "BUY"
-        # The score is a percentage, so a score of 80/100 gives 0.8 confidence
         confidence = min(buy_score / total_score, 1.0)
         reason = f"Bullish signals detected: {', '.join(reasons[:3])}"
     elif sell_score > buy_score:
@@ -401,6 +416,98 @@ def generate_advanced_trading_signal(data):
         reason = "Mixed signals or weak consensus. Wait for a clearer trend."
 
     return signal, reason, confidence
+
+# --- Gemini AI Recommendation Function ---
+@st.cache_data(ttl=300) # Cache Gemini responses for 5 minutes
+def get_gemini_recommendation(symbol, current_price, analyzed_data):
+    """
+    Gets a stock recommendation from the Gemini AI model based on current price and technical indicators.
+    Returns a tuple: (signal, reason, confidence) or (None, error_message, None)
+    """
+    if analyzed_data.empty:
+        return "HOLD", "Insufficient data for Gemini analysis.", 0.5
+
+    latest = analyzed_data.iloc[-1]
+
+    # Prepare detailed input for Gemini
+    prompt_text = f"""
+    Analyze the stock {symbol} with the following latest data and provide a trading recommendation (BUY, SELL, or HOLD).
+    Current Price: ₹{current_price:.2f}
+
+    Technical Indicators:
+    - Last Close Price: ₹{latest.get('Close', 'N/A'):.2f}
+    - SMA 20: ₹{latest.get('SMA_20', 'N/A'):.2f}
+    - SMA 50: ₹{latest.get('SMA_50', 'N/A'):.2f}
+    - RSI: {latest.get('RSI', 'N/A'):.2f}
+    - MACD: {latest.get('MACD', 'N/A'):.4f}
+    - MACD Signal: {latest.get('MACD_Signal', 'N/A'):.4f}
+    - Bollinger Bands (Upper): ₹{latest.get('BB_Upper', 'N/A'):.2f}
+    - Bollinger Bands (Middle): ₹{latest.get('BB_Middle', 'N/A'):.2f}
+    - Bollinger Bands (Lower): ₹{latest.get('BB_Lower', 'N/A'):.2f}
+    - Stochastic %K: {latest.get('%K', 'N/A'):.2f}
+    - Stochastic %D: {latest.get('%D', 'N/A'):.2f}
+
+    Consider these factors:
+    - RSI below 30 suggests oversold, above 70 suggests overbought.
+    - MACD crossover above signal line is bullish, below is bearish.
+    - Price above moving averages (SMA 20, 50) is bullish, below is bearish.
+    - Price near Bollinger Lower Band is bullish, near Upper Band is bearish.
+    - Stochastic %K and %D below 20 suggest oversold, above 80 suggest overbought.
+
+    Provide your recommendation as a JSON object with the following keys:
+    "signal": "BUY" | "SELL" | "HOLD"
+    "reason": "A brief explanation for the recommendation."
+    "confidence": 0.0 to 1.0 (float, indicating confidence in the recommendation)
+    """
+
+    chat_history = []
+    # FIX: Changed .push to .append for Python list
+    chat_history.append({ "role": "user", "parts": [{ "text": prompt_text }] });
+    
+    payload = {
+        "contents": chat_history,
+        "generationConfig": {
+            "responseMimeType": "application/json",
+            "responseSchema": {
+                "type": "OBJECT",
+                "properties": {
+                    "signal": {"type": "STRING", "enum": ["BUY", "SELL", "HOLD"]},
+                    "reason": {"type": "STRING"},
+                    "confidence": {"type": "NUMBER", "format": "float"}
+                },
+                "required": ["signal", "reason", "confidence"]
+            }
+        }
+    }
+    
+    # Using the provided API call structure
+    apiKey = GEMINI_API_KEY
+    apiUrl = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key={apiKey}"
+
+    try:
+        response = requests.post(apiUrl, headers={'Content-Type': 'application/json'}, json=payload, timeout=20)
+        response.raise_for_status() # Raise an exception for HTTP errors
+        
+        result = response.json()
+        
+        if result.get('candidates') and len(result['candidates']) > 0 and result['candidates'][0].get('content') and result['candidates'][0]['content'].get('parts') and len(result['candidates'][0]['content']['parts']) > 0:
+            json_text = result['candidates'][0]['content']['parts'][0]['text']
+            gemini_output = json.loads(json_text)
+            
+            signal = gemini_output.get('signal', 'HOLD').upper()
+            reason = gemini_output.get('reason', 'No specific reason provided by AI.')
+            confidence = float(gemini_output.get('confidence', 0.5))
+            
+            return signal, reason, confidence
+        else:
+            return "HOLD", "Gemini AI: No valid response from the model.", 0.5
+    except requests.exceptions.RequestException as e:
+        return "HOLD", f"Gemini AI: Network or API error: {e}", 0.5
+    except json.JSONDecodeError:
+        return "HOLD", "Gemini AI: Could not parse JSON response.", 0.5
+    except Exception as e:
+        return "HOLD", f"Gemini AI: An unexpected error occurred: {e}", 0.5
+
 
 # --- Enhanced Charting Functions ---
 def create_comprehensive_chart(data, symbol):
@@ -498,27 +605,68 @@ def hold_stock(symbol):
 
 def get_nse_data(symbol, period="3M"):
     if not NSELIB_AVAILABLE: return None
-    data = capital_market.price_volume_and_deliverable_position_data(symbol=symbol, period=period)
-    if data is not None and not data.empty:
-        data.columns = data.columns.str.strip()
-        if 'Date' in data.columns:
-            data['Date'] = pd.to_datetime(data['Date'])
-            data.set_index('Date', inplace=True)
-        column_mapping = {'Close Price': 'Close', 'Open Price': 'Open', 'High Price': 'High', 'Low Price': 'Low', 'Total Traded Quantity': 'Volume'}
-        data.rename(columns=column_mapping, inplace=True)
-        # Fetch current price from Finnhub or another source as NSELib only provides historical data
-        finnhub_price, prev_close = _get_realtime_price_finnhub(symbol)
-        price = finnhub_price if finnhub_price is not None else data['Close'].iloc[-1]
-        prev_close = prev_close if prev_close is not None else data['Close'].iloc[-2] if len(data) > 1 else price
-        return {
-            'symbol': symbol,
-            'price': price,
-            'prev_close': prev_close,
-            'historical': data,
-            'last_updated': datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
-            'data_source': 'NSE Library'
-        }
-    return None
+    
+    # Fetch data using nselib
+    try:
+        data = capital_market.price_volume_and_deliverable_position_data(symbol=symbol, period=period)
+    except Exception as e:
+        st.error(f"Error fetching data from NSELib for {symbol}: {e}")
+        return None
+
+    if data is None or data.empty:
+        st.warning(f"No data available from NSELib for {symbol} for the period {period}.")
+        return None
+    
+    data.columns = data.columns.str.strip()
+    
+    # Define column mapping
+    column_mapping = {
+        'Close Price': 'Close',
+        'Open Price': 'Open',
+        'High Price': 'High',
+        'Low Price': 'Low',
+        'Total Traded Quantity': 'Volume'
+    }
+    
+    # Rename columns. Use errors='ignore' to avoid KeyError if a column doesn't exist
+    data.rename(columns=column_mapping, inplace=True)
+
+    # Ensure essential columns exist after renaming
+    required_cols = ['Close', 'Open', 'High', 'Low', 'Volume']
+    if not all(col in data.columns for col in required_cols):
+        missing_cols = [col for col in required_cols if col not in data.columns]
+        st.error(f"NSE Library data for {symbol} is missing required columns: {', '.join(missing_cols)}. Cannot proceed with analysis.")
+        return None
+
+    if 'Date' in data.columns:
+        data['Date'] = pd.to_datetime(data['Date'])
+        data.set_index('Date', inplace=True)
+    else:
+        st.error(f"NSE Library data for {symbol} is missing 'Date' column. Cannot set index.")
+        return None
+
+    # Ensure there's enough data after processing for calculations
+    if data.empty or len(data) < 2: # Need at least 2 data points for prev_close calculation
+        st.warning(f"NSE Library data for {symbol} is insufficient for full analysis after processing.")
+        return None
+
+    # Fetch current price from Finnhub or another source as NSELib only provides historical data
+    finnhub_price, prev_close_finnhub = _get_realtime_price_finnhub(symbol)
+    
+    # Prioritize Finnhub price if available, otherwise use the last close from NSELib data
+    price = finnhub_price if finnhub_price is not None else data['Close'].iloc[-1]
+    
+    # Prioritize Finnhub prev_close if available, otherwise use the second to last close from NSELib data
+    prev_close = prev_close_finnhub if prev_close_finnhub is not None else (data['Close'].iloc[-2] if len(data) > 1 else price)
+
+    return {
+        'symbol': symbol,
+        'price': price,
+        'prev_close': prev_close,
+        'historical': data,
+        'last_updated': datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
+        'data_source': 'NSE Library'
+    }
 
 def _get_realtime_price_finnhub(symbol):
     """Helper function to get a single price point from Finnhub."""
@@ -592,9 +740,9 @@ def equity_dashboard():
         st.cache_data.clear()
         st.rerun()
     
-    auto_refresh_toggle = col_auto.checkbox("Auto Refresh (60s)", value=False)
+    auto_refresh_toggle = col_auto.checkbox("Auto Refresh (5m)", value=False)
     if auto_refresh_toggle:
-        st_autorefresh(interval=600000, key="auto_refresh_trigger")
+        st_autorefresh(interval=300000, key="auto_refresh_trigger")
     
     with st.spinner(f"Fetching market data for {symbol_to_fetch}..."):
         if data_source == "Yahoo Finance (Real-time)":
@@ -638,19 +786,72 @@ def equity_dashboard():
     
     # --- AI Trading Recommendation Section ---
     st.subheader("🎯 AI Trading Recommendation")
-    with st.spinner("Analyzing market trends..."):
+    
+    # Calculate rule-based signal
+    with st.spinner("Analyzing market trends with rule-based model..."):
         analyzed_data = calculate_advanced_technical_indicators(stock_data['historical'])
-        signal, reason, confidence = generate_advanced_trading_signal(analyzed_data)
+        model_signal, model_reason, model_confidence = generate_rule_based_trading_signal(analyzed_data)
         
-    signal_class = f"{signal.lower()}-signal"
-    confidence_bar = "🟢" * int(confidence * 10) + "⚪" * (10 - int(confidence * 10))
+    st.markdown("#### Rule-Based Model's Recommendation")
+    model_signal_class = f"{model_signal.lower()}-signal"
+    model_confidence_bar = "🟢" * int(model_confidence * 10) + "⚪" * (10 - int(model_confidence * 10))
     st.markdown(f"""
-    <div class="prediction-box {signal_class}">
-        <h3>📊 {signal}</h3>
-        <p>{reason}</p>
-        <p>Confidence: {confidence_bar} ({confidence:.1%})</p>
+    <div class="prediction-box {model_signal_class}">
+        <h3>📊 {model_signal}</h3>
+        <p>{model_reason}</p>
+        <p>Confidence: {model_confidence_bar} ({model_confidence:.1%})</p>
     </div>
     """, unsafe_allow_html=True)
+
+    # Get Gemini AI signal
+    st.markdown("#### Gemini AI's Recommendation")
+    with st.spinner("Consulting Gemini AI for a second opinion..."):
+        gemini_signal, gemini_reason, gemini_confidence = get_gemini_recommendation(
+            stock_data['symbol'], stock_data['price'], analyzed_data
+        )
+
+    gemini_signal_class = f"{gemini_signal.lower()}-signal"
+    gemini_confidence_bar = "🔵" * int(gemini_confidence * 10) + "⚪" * (10 - int(gemini_confidence * 10))
+    st.markdown(f"""
+    <div class="gemini-box">
+        <h3>✨ {gemini_signal}</h3>
+        <p>{gemini_reason}</p>
+        <p>Confidence: {gemini_confidence_bar} ({gemini_confidence:.1%})</p>
+    </div>
+    """, unsafe_allow_html=True)
+
+    # --- Final Decision Logic ---
+    st.markdown("#### Final Combined Decision")
+    final_signal = "HOLD"
+    final_reason = "Mixed signals, proceed with caution."
+    final_confidence = 0.5
+
+    if model_signal == gemini_signal:
+        final_signal = model_signal
+        final_reason = f"Both models agree: {model_reason} | {gemini_reason}"
+        final_confidence = (model_confidence + gemini_confidence) / 2 # Average confidence
+    else:
+        # If signals differ, decide based on higher confidence
+        if model_confidence >= gemini_confidence:
+            final_signal = model_signal
+            final_reason = f"Models differ. Prioritizing Rule-Based Model (Confidence: {model_confidence:.1%}) over Gemini AI (Confidence: {gemini_confidence:.1%}). Rule-Based: {model_reason}"
+            final_confidence = model_confidence
+        else:
+            final_signal = gemini_signal
+            final_reason = f"Models differ. Prioritizing Gemini AI (Confidence: {gemini_confidence:.1%}) over Rule-Based Model (Confidence: {model_confidence:.1%}). Gemini AI: {gemini_reason}"
+            final_confidence = gemini_confidence
+    
+    final_signal_class = f"{final_signal.lower()}-signal"
+    final_confidence_bar = "⭐" * int(final_confidence * 10) + "⚪" * (10 - int(final_confidence * 10))
+
+    st.markdown(f"""
+    <div class="final-decision-box {final_signal_class}">
+        <h2>🚀 {final_signal}</h2>
+        <p>{final_reason}</p>
+        <p>Overall Confidence: {final_confidence_bar} ({final_confidence:.1%})</p>
+    </div>
+    """, unsafe_allow_html=True)
+
 
     # --- Charts Section ---
     st.subheader("📈 Advanced Technical Analysis")
