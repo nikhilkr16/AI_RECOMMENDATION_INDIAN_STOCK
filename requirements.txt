@@ -12,4 +12,5 @@ plotly
 yfinance
 streamlit_autorefresh
 pandas_market_calendars
+google.generativeai
 
