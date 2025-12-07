@@ -21,7 +21,7 @@ warnings.filterwarnings('ignore')
 FINNHUB_API_KEY = "d1sqg0hr01qhe5rbg89gd1sqg0hr01qhe5rbg8a0"
 # Gemini API Key will be provided by the environment, leave it empty here
 # Keeping the user's provided key as per the latest context.
-GEMINI_API_KEY = "AIzaSyA0--JpmVl0gx7ehpoPK16gCUiCg2K59xY" 
+GEMINI_API_KEY = "AIzaSyBXtYVWb-_2TqkZOAsUfu_I2RPV8ARGj10" 
 
 # --- Safe Imports with Fallback ---
 try:
@@ -982,5 +982,6 @@ if market_type == "Equity":
     equity_dashboard()
 else:
     derivatives_dashboard()
+
 
 
