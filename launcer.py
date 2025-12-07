@@ -33,7 +33,7 @@ genai.GenerativeModel.generate_content = safe_generate_content
 
 # --- 2. RUN YOUR ORIGINAL APP ---
 # Replace 'main.py' with the ACTUAL name of your script
-target_file = "main.py" 
+target_file = "AdvanceStockAnalysis.py" 
 
 with open(target_file) as f:
     code = compile(f.read(), target_file, 'exec')
