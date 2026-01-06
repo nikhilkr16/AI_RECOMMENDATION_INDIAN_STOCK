@@ -34,8 +34,8 @@ except ImportError:
 
 # --- Streamlit Page Configuration ---
 st.set_page_config(
-    page_title="Advanced Indian Stock Dashboard",
-    page_icon="📈",
+    page_title="Indian Stock Insight Dashboard",
+    page_icon="📡",
     layout="wide",
     initial_sidebar_state="expanded"
 )
@@ -135,13 +135,13 @@ if 'refresh_trigger' not in st.session_state:
 # --- Main Header ---
 st.markdown("""
 <div class="main-header">
-    <h1>🚀 Advanced Indian Stock Market Dashboard 2025</h1>
+    <h1> Indian Stock Market Insight Dashboard</h1>
     <p>Real-time Analysis | Smart Predictions | Comprehensive Insights</p>
 </div>
 """, unsafe_allow_html=True)
 
 # --- Sidebar Configuration ---
-st.sidebar.title("📊 Dashboard Controls")
+st.sidebar.title(" Dashboard Controls")
 st.sidebar.markdown("---")
 
 # --- Error Handling Decorator ---
@@ -803,7 +803,7 @@ def equity_dashboard():
     model_confidence_bar = "🟢" * int(model_confidence * 10) + "⚪" * (10 - int(model_confidence * 10))
     st.markdown(f"""
     <div class="prediction-box {model_signal_class}">
-        <h3>📊 {model_signal}</h3>
+        <h3>⚙️ {model_signal}</h3>
         <p>{model_reason}</p>
         <p>Confidence: {model_confidence_bar} ({model_confidence:.1%})</p>
     </div>
@@ -820,7 +820,7 @@ def equity_dashboard():
     gemini_confidence_bar = "🔵" * int(gemini_confidence * 10) + "⚪" * (10 - int(gemini_confidence * 10))
     st.markdown(f"""
     <div class="gemini-box">
-        <h3>✨ {gemini_signal}</h3>
+        <h3>🤖 {gemini_signal}</h3>
         <p>{gemini_reason}</p>
         <p>Confidence: {gemini_confidence_bar} ({gemini_confidence:.1%})</p>
     </div>
@@ -852,7 +852,7 @@ def equity_dashboard():
 
     st.markdown(f"""
     <div class="final-decision-box {final_signal_class}">
-        <h2>🚀 {final_signal}</h2>
+        <h2>💡 {final_signal}</h2>
         <p>{final_reason}</p>
         <p>Overall Confidence: {final_confidence_bar} ({final_confidence:.1%})</p>
     </div>
@@ -988,6 +988,7 @@ if market_type == "Equity":
     equity_dashboard()
 else:
     derivatives_dashboard()
+
 
 
 
