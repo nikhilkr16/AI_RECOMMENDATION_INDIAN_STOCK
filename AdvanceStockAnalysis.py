@@ -18,7 +18,7 @@ import pandas_market_calendars as mcal
 warnings.filterwarnings('ignore')
 
 # --- API Keys and Configuration ---
-FINNHUB_API_KEY = "d1sqg0hr01qhe5rbg89gd1sqg0hr01qhe5rbg8a0"
+FINNHUB_API_KEY = "d5e6mgpr01qjckl27420d5e6mgpr01qjckl2742g"
 # Gemini API Key will be provided by the environment, leave it empty here
 # Keeping the user's provided key as per the latest context.
 GEMINI_API_KEY = "AIzaSyCZ-go0zOX6XRoY3wyGBoZITzSN0Ee3OWE" 
@@ -986,6 +986,7 @@ if market_type == "Equity":
     equity_dashboard()
 else:
     derivatives_dashboard()
+
 
 
 
