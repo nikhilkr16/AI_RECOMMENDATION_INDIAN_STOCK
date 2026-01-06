@@ -484,8 +484,8 @@ def get_gemini_recommendation(symbol, current_price, analyzed_data):
     # Using the provided API call structure
     
     apiKey =GEMINI_API_KEY
-    url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key={apiKey}"
-     #   url = f"https://generativelanguage.googleapis.com/v1beta/models/{model_name}:generateContent?key={apiKey}"
+    # url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key={apiKey}"
+    url = f"https://generativelanguage.googleapis.com/v1beta/models/{model_name}:generateContent?key={apiKey}"
 
 
     try:
@@ -986,6 +986,7 @@ if market_type == "Equity":
     equity_dashboard()
 else:
     derivatives_dashboard()
+
 
 
 
