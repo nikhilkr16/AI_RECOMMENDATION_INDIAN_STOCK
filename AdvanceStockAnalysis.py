@@ -21,7 +21,7 @@ warnings.filterwarnings('ignore')
 FINNHUB_API_KEY = "d1sqg0hr01qhe5rbg89gd1sqg0hr01qhe5rbg8a0"
 # Gemini API Key will be provided by the environment, leave it empty here
 # Keeping the user's provided key as per the latest context.
-GEMINI_API_KEY = "AIzaSyCrKz64uEVGgOX0lMtOYQCtNXl0yDVZUpw" 
+GEMINI_API_KEY = "AIzaSyCZ-go0zOX6XRoY3wyGBoZITzSN0Ee3OWE" 
 model_name = "gemini-2.5-flash-preview-09-2025"
 
 # --- Safe Imports with Fallback ---
@@ -483,9 +483,10 @@ def get_gemini_recommendation(symbol, current_price, analyzed_data):
     
     # Using the provided API call structure
     
-    apiKey = GEMINI_API_KEY
-    url = f"https://generativelanguage.googleapis.com/v1beta/models/{model_name}:generateContent?key={apiKey}"
-    
+    apiKey =GEMINI_API_KEY
+    url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key={apiKey}"
+     #   url = f"https://generativelanguage.googleapis.com/v1beta/models/{model_name}:generateContent?key={apiKey}"
+
 
     try:
         response = requests.post(apiUrl, headers={'Content-Type': 'application/json'}, json=payload, timeout=20)
