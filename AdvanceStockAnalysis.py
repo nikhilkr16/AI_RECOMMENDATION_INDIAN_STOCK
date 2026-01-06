@@ -481,8 +481,12 @@ def get_gemini_recommendation(symbol, current_price, analyzed_data):
     }
     
     # Using the provided API call structure
+    
     apiKey = GEMINI_API_KEY
-    apiUrl = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key={apiKey}"
+    model_name = "gemini-2.5-flash-preview-09-2025"
+    url = f"https://generativelanguage.googleapis.com/v1beta/models/{model_name}:generateContent?key={apiKey}"
+    
+    # apiUrl = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key={apiKey}"
 
     try:
         response = requests.post(apiUrl, headers={'Content-Type': 'application/json'}, json=payload, timeout=20)
@@ -982,6 +986,7 @@ if market_type == "Equity":
     equity_dashboard()
 else:
     derivatives_dashboard()
+
 
 
 
