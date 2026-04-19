@@ -238,7 +238,7 @@ st.markdown("""
         text-align: center; margin-bottom: 1.5rem;
     }
     .holding-card {
-        background: #f8f9fa; border-radius: 10px; padding: 1rem;
+        background: #ceeddc; border-radius: 10px; padding: 1rem;
         border-left: 5px solid #667eea; margin-bottom: 0.75rem;
     }
 </style>
