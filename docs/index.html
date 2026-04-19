@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Primary SEO -->
+  <title>IndianStockAI — Free AI Stock Analysis Dashboard for NSE & BSE</title>
+  <meta name="description" content="Free AI-powered stock analysis dashboard for Indian markets (NSE/BSE). Get real-time Nifty 50 heatmaps, RSI, MACD, Bollinger Bands and AI trading signals using Groq llama3. Built by Nikhil, BIT Mesra." />
+  <meta name="keywords" content="Indian stock market AI analysis free, NSE BSE stock dashboard Python, Nifty 50 AI stock screener free, stock sentiment analysis India, streamlit stock market app India, free stock screener India AI 2026" />
+  <meta name="author" content="Nikhil — BIT Mesra" />
+  <link rel="canonical" href="https://nikhilkr16.github.io/AI_RECOMMENDATION_INDIAN_STOCK/" />
+
+  <!-- Open Graph / WhatsApp / Twitter -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://nikhilkr16.github.io/AI_RECOMMENDATION_INDIAN_STOCK/" />
+  <meta property="og:title" content="IndianStockAI — Free AI Stock Analysis for NSE & BSE" />
+  <meta property="og:description" content="Real-time AI trading signals, Nifty 50 heatmap, and stock screener — completely free. Powered by Groq llama3 and Python." />
+  <meta property="og:image" content="https://nikhilkr16.github.io/AI_RECOMMENDATION_INDIAN_STOCK/assets/og-preview.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="IndianStockAI — Free AI Stock Analysis for NSE & BSE" />
+  <meta name="twitter:description" content="Real-time AI trading signals for Nifty 50 stocks. Completely free." />
+  <meta name="twitter:image" content="https://nikhilkr16.github.io/AI_RECOMMENDATION_INDIAN_STOCK/assets/og-preview.png" />
+
+  <!-- JSON-LD Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "IndianStockAI",
+    "url": "https://nikhilkr16-ai-recommendation-indian-stock.streamlit.app",
+    "description": "Free AI-powered stock analysis dashboard for Indian markets (NSE/BSE). Real-time technical indicators, AI trading signals, Nifty 50 heatmap, and stock screener.",
+    "applicationCategory": "FinanceApplication",
+    "operatingSystem": "Web Browser",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "INR"
+    },
+    "author": {
+      "@type": "Person",
+      "name": "Nikhil",
+      "affiliation": "BIT Mesra"
+    },
+    "featureList": [
+      "Real-time NSE/BSE stock data",
+      "AI trading signals using Groq llama3-70b",
+      "Nifty 50 sector heatmap",
+      "RSI, MACD, Bollinger Bands analysis",
+      "Stock screener with custom filters",
+      "WhatsApp-shareable daily digest"
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FinancialProduct",
+    "name": "IndianStockAI Stock Analysis Tool",
+    "description": "Free AI-powered Indian stock market analysis tool with real-time NSE/BSE data and Groq AI trading recommendations.",
+    "url": "https://nikhilkr16-ai-recommendation-indian-stock.streamlit.app",
+    "feesAndCommissionsSpecification": "Free — no subscription required",
+    "provider": {
+      "@type": "Person",
+      "name": "Nikhil",
+      "affiliation": "BIT Mesra"
+    }
+  }
+  </script>
+
+  <!-- Google Analytics 4 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-C02LRKDXEL"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-C02LRKDXEL');
+
+    // Track CTA clicks
+    document.addEventListener('DOMContentLoaded', function() {
+      document.querySelectorAll('.cta-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          gtag('event', 'launch_app_click', { event_category: 'CTA', event_label: 'Hero Button' });
+        });
+      });
+    });
+  </script>
+
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Segoe UI', system-ui, sans-serif; background: #0f172a; color: #e2e8f0; line-height: 1.7; }
+    a { color: #818cf8; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    header {
+      background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+      border-bottom: 1px solid #334155;
+      padding: 1rem 2rem;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .logo { font-size: 1.4rem; font-weight: 800; color: #818cf8; }
+    .badge {
+      background: #22c55e; color: #fff; padding: 0.25rem 0.75rem;
+      border-radius: 20px; font-size: 0.8rem; font-weight: 700;
+    }
+
+    .hero {
+      text-align: center; padding: 5rem 2rem 4rem;
+      background: radial-gradient(ellipse at top, #1e1b4b 0%, #0f172a 70%);
+    }
+    .hero h1 {
+      font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 900;
+      background: linear-gradient(90deg, #818cf8, #34d399);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      margin-bottom: 1.2rem;
+    }
+    .hero p {
+      font-size: 1.15rem; color: #94a3b8; max-width: 620px; margin: 0 auto 2.5rem;
+    }
+    .cta-btn {
+      display: inline-block;
+      background: linear-gradient(90deg, #6366f1, #8b5cf6);
+      color: #fff; font-size: 1.1rem; font-weight: 700;
+      padding: 0.9rem 2.5rem; border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(99,102,241,0.4);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .cta-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(99,102,241,0.5); text-decoration: none; }
+
+    .stats {
+      display: flex; justify-content: center; gap: 3rem;
+      padding: 2rem; flex-wrap: wrap;
+      border-top: 1px solid #1e293b; border-bottom: 1px solid #1e293b;
+      background: #1e293b;
+    }
+    .stat { text-align: center; }
+    .stat-num { font-size: 2rem; font-weight: 800; color: #818cf8; }
+    .stat-label { font-size: 0.85rem; color: #64748b; margin-top: 0.2rem; }
+
+    .features {
+      max-width: 1100px; margin: 0 auto; padding: 4rem 2rem;
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem;
+    }
+    .feature-card {
+      background: #1e293b; border: 1px solid #334155;
+      border-radius: 12px; padding: 1.8rem;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .feature-card:hover { border-color: #6366f1; transform: translateY(-3px); }
+    .feature-icon { font-size: 2rem; margin-bottom: 0.8rem; }
+    .feature-card h3 { font-size: 1.1rem; font-weight: 700; color: #e2e8f0; margin-bottom: 0.5rem; }
+    .feature-card p { font-size: 0.92rem; color: #94a3b8; }
+
+    .vs-table {
+      max-width: 900px; margin: 0 auto; padding: 0 2rem 4rem;
+    }
+    .vs-table h2 { text-align: center; font-size: 1.8rem; margin-bottom: 2rem; color: #e2e8f0; }
+    table { width: 100%; border-collapse: collapse; }
+    th { background: #1e293b; color: #818cf8; padding: 0.9rem 1rem; text-align: left; font-size: 0.9rem; }
+    td { padding: 0.75rem 1rem; border-bottom: 1px solid #1e293b; font-size: 0.92rem; color: #94a3b8; }
+    tr:hover td { background: #1e293b; }
+    .tick { color: #22c55e; font-weight: 700; }
+    .cross { color: #ef4444; }
+
+    .tech-stack {
+      background: #1e293b; padding: 3rem 2rem; text-align: center;
+    }
+    .tech-stack h2 { font-size: 1.6rem; margin-bottom: 1.5rem; color: #e2e8f0; }
+    .badges { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.75rem; }
+    .tech-badge {
+      background: #0f172a; border: 1px solid #334155; color: #94a3b8;
+      padding: 0.4rem 1rem; border-radius: 20px; font-size: 0.85rem;
+    }
+
+    .faq { max-width: 800px; margin: 0 auto; padding: 4rem 2rem; }
+    .faq h2 { font-size: 1.8rem; margin-bottom: 2rem; color: #e2e8f0; text-align: center; }
+    details { border: 1px solid #334155; border-radius: 8px; margin-bottom: 1rem; padding: 1rem 1.2rem; }
+    summary { cursor: pointer; font-weight: 600; color: #e2e8f0; list-style: none; }
+    summary::-webkit-details-marker { display: none; }
+    summary::before { content: "▶ "; color: #818cf8; }
+    details[open] summary::before { content: "▼ "; }
+    details p { margin-top: 0.75rem; color: #94a3b8; font-size: 0.92rem; }
+
+    footer {
+      text-align: center; padding: 2rem;
+      border-top: 1px solid #1e293b; color: #64748b; font-size: 0.85rem;
+    }
+    footer strong { color: #94a3b8; }
+
+    @media (max-width: 600px) {
+      .stats { gap: 1.5rem; }
+      .hero { padding: 3rem 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="logo">📡 IndianStockAI</div>
+  <span class="badge">FREE · No Sign-up</span>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <h1>Free AI Stock Analysis Dashboard<br>for Indian Markets (NSE &amp; BSE)</h1>
+  <p>Real-time technical indicators, Groq AI trading signals, Nifty 50 sector heatmap and stock screener — completely free, no subscription needed.</p>
+  <a href="https://nikhilkr16-ai-recommendation-indian-stock.streamlit.app" class="cta-btn" target="_blank" rel="noopener">
+    🚀 Launch Free Dashboard
+  </a>
+</section>
+
+<!-- STATS BAR -->
+<div class="stats">
+  <div class="stat"><div class="stat-num">50+</div><div class="stat-label">Nifty 50 Stocks Tracked</div></div>
+  <div class="stat"><div class="stat-num">14K</div><div class="stat-label">Groq AI Requests/Day (Free)</div></div>
+  <div class="stat"><div class="stat-num">6+</div><div class="stat-label">Technical Indicators</div></div>
+  <div class="stat"><div class="stat-num">₹0</div><div class="stat-label">Cost — Always Free</div></div>
+</div>
+
+<!-- FEATURES -->
+<section>
+  <div class="features">
+    <div class="feature-card">
+      <div class="feature-icon">🤖</div>
+      <h3>Groq AI Trading Signals</h3>
+      <p>Get BUY / SELL / HOLD recommendations powered by Groq's llama3-70b model — 14,400 free requests per day, faster than GPT-4.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🗺️</div>
+      <h3>Nifty 50 Sector Heatmap</h3>
+      <p>Color-coded sector heatmap showing daily % change for all 50 Nifty stocks. Instantly spot which sectors are hot or cold.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🔍</div>
+      <h3>Smart Stock Screener</h3>
+      <p>Filter Nifty 50 stocks by RSI range, 1-day change, sector, and moving average position. Find opportunity fast.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">📲</div>
+      <h3>WhatsApp-Shareable Digest</h3>
+      <p>One-click WhatsApp share with a formatted stock digest — price, AI signal, RSI, and trend. Perfect for retail investor groups.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">📈</div>
+      <h3>Advanced Technical Analysis</h3>
+      <p>RSI, MACD, Bollinger Bands, Stochastic Oscillator, SMA 20/50/200 — all calculated from real NSE/BSE data via yFinance.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">💼</div>
+      <h3>Trading Simulation</h3>
+      <p>Simulate BUY / SELL / HOLD decisions with a built-in transaction log. Practice without risking real money.</p>
+    </div>
+  </div>
+</section>
+
+<!-- VS TABLE -->
+<section class="vs-table">
+  <h2>How IndianStockAI Compares</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Feature</th>
+        <th>Other Free Apps</th>
+        <th>IndianStockAI v2.0</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>AI Stock Summary</td><td class="cross">✗ None</td><td class="tick">✓ Groq llama3-70b</td></tr>
+      <tr><td>WhatsApp Share</td><td class="cross">✗ None</td><td class="tick">✓ One-click digest</td></tr>
+      <tr><td>Nifty 50 Heatmap</td><td class="cross">✗ Rare</td><td class="tick">✓ Sector treemap</td></tr>
+      <tr><td>Stock Screener</td><td class="cross">✗ Basic</td><td class="tick">✓ RSI + MA + Sector filters</td></tr>
+      <tr><td>NSE/BSE Data</td><td class="tick">✓</td><td class="tick">✓ yFinance + NSELib</td></tr>
+      <tr><td>Cost</td><td class="tick">Free</td><td class="tick">Free</td></tr>
+      <tr><td>Open Source</td><td class="cross">✗ Mostly closed</td><td class="tick">✓ GitHub</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- TECH STACK -->
+<section class="tech-stack">
+  <h2>Built With 100% Free Tools</h2>
+  <div class="badges">
+    <span class="tech-badge">Python 3.11</span>
+    <span class="tech-badge">Streamlit</span>
+    <span class="tech-badge">Groq llama3-70b</span>
+    <span class="tech-badge">Google Gemini (fallback)</span>
+    <span class="tech-badge">yFinance</span>
+    <span class="tech-badge">NSELib</span>
+    <span class="tech-badge">Plotly</span>
+    <span class="tech-badge">Pandas</span>
+    <span class="tech-badge">NumPy</span>
+    <span class="tech-badge">GitHub Pages (SEO)</span>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq">
+  <h2>Frequently Asked Questions</h2>
+
+  <details>
+    <summary>Is IndianStockAI completely free to use?</summary>
+    <p>Yes. The dashboard runs on Streamlit Community Cloud (free). The AI uses Groq's free tier (14,400 requests/day with llama3-70b) and Google Gemini's free tier as backup. No credit card required for any component.</p>
+  </details>
+
+  <details>
+    <summary>Which stocks does IndianStockAI cover?</summary>
+    <p>All NSE and BSE listed stocks are supported via yFinance. The heatmap and screener cover all Nifty 50 constituents. Enter any NSE symbol (e.g., TCS, RELIANCE, INFY) to analyse it.</p>
+  </details>
+
+  <details>
+    <summary>How accurate are the AI trading signals?</summary>
+    <p>The signals are generated from technical indicators (RSI, MACD, Bollinger Bands, etc.) and AI reasoning. They are for educational purposes only and should not be the sole basis for any investment decision. Always consult a SEBI-registered financial advisor.</p>
+  </details>
+
+  <details>
+    <summary>What makes this different from other stock apps?</summary>
+    <p>Most free stock apps do not have an AI summary feature, a WhatsApp-shareable digest, or a sector heatmap. IndianStockAI bundles all of these together using zero-cost APIs — no paywalls.</p>
+  </details>
+
+  <details>
+    <summary>How do I run this locally or contribute?</summary>
+    <p>The source code is open on GitHub. Clone the repo, install requirements with <code>pip install -r requirements.txt</code>, add your free Groq API key, and run <code>streamlit run AdvanceStockAnalysis.py</code>.</p>
+  </details>
+</section>
+
+<footer>
+  <p>Built by <strong>Nikhil Kumar — BIT Mesra</strong> · Open Source · ₹0 Budget</p>
+  <p style="margin-top:0.5rem;">
+    <a href="https://nikhilkr16-ai-recommendation-indian-stock.streamlit.app" target="_blank">Live App</a> ·
+    <a href="https://github.com/nikhilkr16/AI_RECOMMENDATION_INDIAN_STOCK" target="_blank">GitHub</a> ·
+    <a href="sitemap.xml">Sitemap</a>
+  </p>
+  <p style="margin-top:0.75rem; font-size:0.78rem;">
+    ⚠️ For educational purposes only. Not financial advice. Past performance is not indicative of future results.
+  </p>
+</footer>
+
+</body>
+</html>

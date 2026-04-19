@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://nikhilkr16.github.io/AI_RECOMMENDATION_INDIAN_STOCK/sitemap.xml

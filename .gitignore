@@ -1,0 +1,9 @@
+__pycache__/
+*.py[cod]
+*.egg-info/
+.env
+.streamlit/secrets.toml
+prd_content.txt
+*.pyc
+.DS_Store
+Thumbs.db
