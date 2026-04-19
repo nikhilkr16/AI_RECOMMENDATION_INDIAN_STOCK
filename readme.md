@@ -11,7 +11,7 @@
 > **Production-grade AI stock analysis platform for Indian markets — built at zero cost.**  
 > Real-time NSE/BSE data · Grok AI signals · Nifty 50 heatmap · Options chain · Portfolio tracker
 
-**[🚀 Live Demo →](https://nikhilkr16-ai-recommendation-indian-stock.streamlit.app)** &nbsp;|&nbsp; **[🌐 SEO Landing Page →](https://nikhilkr16.github.io/AI_RECOMMENDATION_INDIAN_STOCK/)**
+**[🚀 Live Demo →](https://indianstockai.streamlit.app/)** &nbsp;|&nbsp; **[🌐 SEO Landing Page →](https://nikhilkr16.github.io/AI_RECOMMENDATION_INDIAN_STOCK/)**
 
 ---
 
