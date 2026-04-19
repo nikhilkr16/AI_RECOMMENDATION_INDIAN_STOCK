@@ -155,37 +155,6 @@ Final Decision = Weighted consensus (higher confidence wins)
 
 ---
 
-## 🧠 Interview Talking Points
-
-> *"I built IndianStockAI — a production-grade stock analysis platform for NSE/BSE that's Google-indexed and gets real organic traffic. It uses a 3-tier AI fallback chain (xAI Grok → Groq llama3 → Gemini) for trading signals. The hardest challenge was making Streamlit discoverable on Google — Streamlit renders via WebSocket so Googlebot sees a blank page. I solved it with a separate static GitHub Pages landing page with JSON-LD schema markup."*
-
-**Metrics to mention:**
-- 3-AI fallback chain with graceful degradation
-- 14,400 Groq API calls/day (free tier)
-- Supabase cloud database (500MB free, persistent portfolio)
-- Live NSE F&O data with PCR + Max Pain calculation
-- 6 feature tabs, dark mode, WhatsApp sharing
-- Google Search Console submitted, SEO landing page live
-
----
-
-## 🗺️ Roadmap
-
-- [x] AI trading signals (Grok + Groq + Gemini)
-- [x] Nifty 50 sector heatmap
-- [x] F&O options chain with PCR & Max Pain
-- [x] Stock screener with RSI/MA filters
-- [x] News sentiment via GDELT
-- [x] Portfolio tracker (Supabase cloud)
-- [x] WhatsApp-shareable digest
-- [x] Dark mode
-- [x] SEO landing page (GitHub Pages)
-- [ ] User authentication (Supabase Auth)
-- [ ] Price alerts (email/WhatsApp)
-- [ ] Backtesting module
-
----
-
 ## ⚠️ Disclaimer
 
 This tool is for **educational purposes only**. It does not constitute financial advice. Always consult a SEBI-registered financial advisor before making investment decisions. Past performance is not indicative of future results.
