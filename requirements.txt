@@ -5,6 +5,7 @@ numpy
 plotly
 requests
 beautifulsoup4
+matplotlib
 streamlit-autorefresh
 pandas-market-calendars
 groq
